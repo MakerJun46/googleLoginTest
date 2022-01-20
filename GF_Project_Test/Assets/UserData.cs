@@ -4,7 +4,7 @@ using System;
 
 public class UserData
 {
-    public bool[] hasHand = new bool[57];
+    public List<string> hasHand = new List<string>();
 
     public UserData()
     {
@@ -12,17 +12,10 @@ public class UserData
 
     public UserData(bool[] hashand)
     {
-        for(int i = 0; i < 30; i++)
-        {
-            hasHand[i] = hashand[i];
-        }
     }
 
-    public void setData(List<bool> hashand)
+    public void setData(List<string> hashand)
     {
-        for (int i = 0; i < 30; i++)
-        {
-            hasHand[i] = hashand[i];
-        }
+        hasHand = hashand;
     }
 }

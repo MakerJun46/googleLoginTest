@@ -83,15 +83,15 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13568}
     - Class: 114
-      Script: {instanceID: 14320}
+      Script: {instanceID: 14318}
     - Class: 114
-      Script: {instanceID: 14326}
+      Script: {instanceID: 14324}
     - Class: 114
-      Script: {instanceID: 16066}
+      Script: {instanceID: 22232}
     - Class: 114
-      Script: {instanceID: 31324}
+      Script: {instanceID: 37490}
     - Class: 114
-      Script: {instanceID: 32648}
+      Script: {instanceID: 38814}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -335,7 +335,7 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
-      Hash: a310216c2786e8fa6d5ed19e01f1eacb
+      Hash: b120c7423508a85d89ffccb862c46ca1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DistributePrefab
@@ -582,4 +582,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: E:/SourceTree0115/GF_Project/GF_Project_Test/test05.apk
+  playerPath: D:/SourceTree/googleLogintest/GF_Project_Test/test05.apk

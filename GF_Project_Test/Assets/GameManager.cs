@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public UserData User;
-    public List<bool> hasHand;
+    public List<string> hasHand;
+
+    public string DR;
+    public string DS;
 
     private void Awake()
     {
@@ -17,6 +20,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         User = new UserData();
-        hasHand = new List<bool>();
+        hasHand = new List<string>();
+
+    }
+
+
+    public void print()
+    {
+        foreach (string item in hasHand)
+        {
+            Debug.Log("gamemanager : " + item);
+        }
     }
 }

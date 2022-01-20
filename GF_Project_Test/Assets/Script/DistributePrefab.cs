@@ -13,6 +13,8 @@ public class DistributePrefab : MonoBehaviour
     public GameObject nullPrefab;
     public GameObject GapOfHand;
 
+    public Text AddHand_Text;
+
     //종류,유무,레벨
     string[,] MyHandList = { { "DR", "0", "1" },
                              { "DS", "0", "2" },
@@ -24,53 +26,6 @@ public class DistributePrefab : MonoBehaviour
                              { "FS", "0", "8" },
                              { "FP", "0", "9" },
                              { "ER", "0", "10" },
-                             { "ES", "0", "11" },
-                             { "EP", "0", "12" },
-                             { "RR", "0", "1" },
-                             { "RS", "0", "1" },
-                             { "RP", "0", "1" },
-                             { "ZR", "0", "1" },
-                             { "ZS", "0", "1" },
-                             { "ZP", "0", "1" },
-                             { "TR", "0", "1" },
-                             { "TS", "0", "1" },
-                             { "TP", "0", "1" },
-                             { "BR", "0", "1" },
-                             { "BS", "0", "1" },
-                             { "BP", "0", "1" },
-                             { "MR", "0", "1" },
-                             { "MS", "0", "1" },
-                             { "MP", "0", "1" },
-                             { "GR", "0", "1" },
-                             { "GS", "0", "1" },
-                             { "GP", "0", "1" },
-                             { "PR", "0", "1" },
-                             { "PS", "0", "1" },
-                             { "PP", "0", "1" },
-                             { "AR", "0", "1" },
-                             { "AS", "0", "1" },
-                             { "AP", "0", "1" },
-                             { "JR", "0", "1" },
-                             { "JS", "0", "1" },
-                             { "JP", "0", "1" },
-                             { "VR", "0", "1" },
-                             { "VS", "0", "1" },
-                             { "VP", "0", "1" },
-                             { "HR", "0", "1" },
-                             { "HS", "0", "1" },
-                             { "HP", "0", "1" },
-                             { "WR", "0", "1" },
-                             { "WS", "0", "1" },
-                             { "WP", "0", "1" },
-                             { "LR", "0", "1" },
-                             { "LS", "0", "1" },
-                             { "LP", "0", "1" },
-                             { "NR", "0", "1" },
-                             { "NS", "0", "1" },
-                             { "NP", "0", "1" },
-                             { "OR", "0", "1" },
-                             { "OS", "0", "1" },
-                             { "OP", "0", "1" }, 
     };
 
     private void Awake()
@@ -87,7 +42,7 @@ public class DistributePrefab : MonoBehaviour
     {
         for(int i = 0; i < MyHandList.Length; i++)
         {
-            MyHandList[i, 1] = GameManager.instance.hasHand[i] ? "1" : "0";
+            MyHandList[i, 1] = GameManager.instance.hasHand[i] == "1" ? "1" : "0";
         }
 
         AllSort();
@@ -206,7 +161,8 @@ public class DistributePrefab : MonoBehaviour
             if (MyHandList[i, 1] == "0")
             {
                 MyHandList[i, 1] = "1";
-                GameManager.instance.hasHand[i] = true;
+                GameManager.instance.hasHand[i] = "1";
+                AddHand_Text.text = "Added : " + MyHandList[i, 0];
                 break;
             }
         }

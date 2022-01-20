@@ -158,7 +158,7 @@ public class GoogleFirebase : MonoBehaviour
                 newUser.DisplayName, newUser.UserId);
         });
 
-        GoogleLoginSatus.text = "firebaseLoginSuccess";
+        FirebaseLogin.text = "firebaseLoginSuccess";
         //ReadUserInfos(databasename);
     }
 
@@ -167,15 +167,13 @@ public class GoogleFirebase : MonoBehaviour
     {
         GameManager.instance.User.setData(GameManager.instance.hasHand);
 
-        writeNewUser(GameManager.instance.User.hasHand);
+        writeNewUser();
         //writeNewUser1("guswns67711", "guswns6711@naver.com");
     }
 
-    private void writeNewUser(bool[] hasHand)
+    private void writeNewUser()
     {
-        UserData userdate = new UserData(hasHand);
-
-        string json = JsonUtility.ToJson(userdate);
+        string json = JsonUtility.ToJson(GameManager.instance.User);
 
         reference.Child("HandData").SetRawJsonValueAsync(json);
         FirebaseLogin.text = "Data1 Saved";
@@ -198,53 +196,95 @@ public class GoogleFirebase : MonoBehaviour
     public void ReadUserInfos()
     {
         // 특정 데이터셋의 DB 참조 얻기
-        DatabaseReference uiReference = FirebaseDatabase.DefaultInstance.GetReference("HandData");
-        FirebaseLogin.text = "Ready" + uiReference;
-        bool isin = false;
+        reference = FirebaseDatabase.DefaultInstance.GetReference("HandData");
+        FirebaseLogin.text = "Ready" + reference;
+        ArrayList childs = new ArrayList();
 
-        uiReference.GetValueAsync().ContinueWith( task =>
-            {
-                FirebaseLogin.text = "in Func";
-                if (task.IsFaulted)
-                {
-                    FirebaseLogin.text = "isFaulted!!!";
-                    // Handle the error...
-                }
-                else if (task.IsCompleted)
-                {
-                    DataSnapshot snapshot = task.Result;
-                    ArrayList childs = new ArrayList();
+        List<bool> test = new List<bool>();
 
-                    int count = 0;
-                    foreach (var item in snapshot.Children)
-                    {
-                        childs.Add(item.Value);
-                        GameManager.instance.hasHand.Add((bool)item.Value);
-                        Debug.LogError("init : " + count);
+        List<string> tmp1 = new List<string>();
 
-                        FirebaseLogin.text = "init Data";
-                        count++;
-                    }
-                }
-                isin = true;
-            });
+        string tmp = null;
+
+        string tmp2 = null;
+
+        string test_s;
+
+        StartCoroutine(LoadUserData());
+
+        //reference.GetValueAsync().ContinueWith( task =>
+        //    {
+        //        Debug.Log("inFunc");
+
+        //        if (task.IsFaulted)
+        //        {
+        //            // Handle the error...
+        //        }
+        //        else if (task.IsCompleted)
+        //        {
+        //            DataSnapshot snapshot = task.Result;
+
+        //            tmp = snapshot.Child("DR").Value.ToString();
+
+        //            tmp2 = tmp == null ? "yes" : "no";
+
+        //            Debug.Log("tmp inFunc : " + tmp);
+        //            Debug.Log("tmp2 inFunc : " + tmp2);
+        //        }
+        //    });
+
+
+        //Debug.Log("tmp outFunc : " + tmp);
+        //Debug.Log("tmp2 outFunc : " + tmp2);
 
         //FirebaseLogin.text = isin ? "true" : "false";
 
 
-        if(GameManager.instance.hasHand.Count > 0)
+
+
+        //if (GameManager.instance.hasHand.Count > 0)
+        //{
+        //    //DistributePrefab.instance.SetData();
+        //    GoogleLoginSatus.text = "handdataLoaded";
+        //}
+        //else
+        //{
+        //    for (int i = 0; i < 57; i++)
+        //    {
+        //        GameManager.instance.hasHand.Add(false);
+        //    }
+        //    GoogleLoginSatus.text = "nodata_thisID";
+        //}
+    }
+
+    IEnumerator LoadUserData()
+    {
+        FirebaseLogin.text = "LoadUserData() begin";
+        var DBTask = FirebaseDatabase.DefaultInstance.GetReference("HandData").GetValueAsync();
+        string DR = null;
+        string DS = null;
+
+        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+        if(DBTask.Exception != null)
         {
-            DistributePrefab.instance.SetData();
-            GoogleLoginSatus.text = "handdataLoaded";
+            Debug.Log($"Faild to load task with {DBTask.Exception}");
         }
         else
-        { 
-            for(int i = 0; i < 57; i++)
+        {
+            DataSnapshot snapshot = DBTask.Result;
+
+            foreach(var item in snapshot.Children)
             {
-                GameManager.instance.hasHand.Add(false);
+                string tmp = item.Value.ToString();
+
+                GameManager.instance.hasHand.Add(tmp);
             }
-            GoogleLoginSatus.text = "nodata_thisID";
         }
+
+        GameManager.instance.print();
+
+        FirebaseLogin.text = "LoadUserData() End";
     }
 
 }
