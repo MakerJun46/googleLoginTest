@@ -274,11 +274,14 @@ public class GoogleFirebase : MonoBehaviour
         {
             DataSnapshot snapshot = DBTask.Result;
 
+            int count = 0;
+
             foreach(var item in snapshot.Children)
             {
                 string tmp = item.Value.ToString();
 
                 GameManager.instance.hasHand.Add(tmp);
+                count++;
             }
         }
 
